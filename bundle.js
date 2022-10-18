@@ -104293,17 +104293,15 @@ window.addEventListener("resize", () => {
   renderer.setSize(size.width, size.height);
 });
 
-console.log("Ready for IFC loading");
 
 // IFC loading
 const ifcLoader = new IFCLoader();
 ifcLoader.ifcManager.setWasmPath('wasm/');
 
-console.log("./noroom.ifc");
 async function loadIfc() {
 	const ifcLoader = new IFCLoader();
   ifcLoader.ifcManager.setWasmPath('wasm/');
-	const model = await ifcLoader.loadAsync("./IFC-eng.ifc"); //url!
+	const model = await ifcLoader.loadAsync("./static/IFC-eng.ifc"); //url!
 	scene.add(model);
 }
 
