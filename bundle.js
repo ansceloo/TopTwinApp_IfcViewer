@@ -104302,7 +104302,7 @@ ifcLoader.ifcManager.setWasmPath('wasm/');
 async function loadIfc() {
 	const ifcLoader = new IFCLoader();
   ifcLoader.ifcManager.setWasmPath('wasm/');
-	const model = await ifcLoader.loadAsync("/../../IFC/ENG.ifc"); //url!
+	const model = await ifcLoader.loadAsync("./IFC/ENG.ifc"); //url!
 	scene.add(model);
 }
 
