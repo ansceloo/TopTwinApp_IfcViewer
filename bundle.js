@@ -104299,12 +104299,8 @@ console.log("Ready for importing IFC!");
 const ifcLoader = new IFCLoader();
 ifcLoader.ifcManager.setWasmPath('wasm/');
 
-async function loadIfc() {
-	const ifcLoader = new IFCLoader();
-  ifcLoader.ifcManager.setWasmPath('wasm/');
-	const model = await ifcLoader.loadAsync("./IFC/ENG.ifc"); //url!
-	scene.add(model);
-}
+//Sets up the IFC loading
+ifcLoader.load("../../IFC/ENG.ifc", (ifcModel) => scene.add(ifcModel));
 
 console.log("IFC imported");
 
