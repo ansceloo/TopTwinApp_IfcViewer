@@ -104293,6 +104293,7 @@ window.addEventListener("resize", () => {
   renderer.setSize(size.width, size.height);
 });
 
+console.log("Ready for importing IFC!");
 
 // IFC loading
 const ifcLoader = new IFCLoader();
@@ -104304,5 +104305,7 @@ async function loadIfc() {
 	const model = await ifcLoader.loadAsync("./static/IFC-eng.ifc"); //url!
 	scene.add(model);
 }
+
+console.log("IFC imported");
 
 loadIfc();
