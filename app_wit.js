@@ -39,6 +39,7 @@ import {
   computeBoundsTree,
   disposeBoundsTree
 } from 'three-mesh-bvh';
+import { Value } from "web-ifc";
 
 //Creates the Three.js scene
 const scene = new Scene();
@@ -109,7 +110,7 @@ const ifcModels = [];
 const ifcLoader = new IFCLoader();
 
 async function loadIFC() {
-  await ifcLoader.ifcManager.setWasmPath("../../../");
+  await ifcLoader.ifcManager.setWasmPath("wasm_wit/");
   const model = await ifcLoader.loadAsync(ifcUrl);
   scene.add(model);
   ifcModels.push(model);
@@ -185,7 +186,29 @@ async function pick(event, getProps) {
       const geometry = found.object.geometry;
       const ifc = ifcLoader.ifcManager;
       const id = ifc.getExpressId(geometry, index);
+      const modelID = found.object.modelID;
+      const props = await ifc.getItemProperties(modelID, id);
       elementID.textContent = ["Element ID: "+id]; //show element id in the canvas when event is cast
+
+      //get IFC properties
+      if(getProps) {
+        console.log(props);
+        const psets = await ifc.getPropertySets(modelID, id);
+        
+        for(const pset of psets){ //per ogni pset dei psets dell'oggetto selezionato...
+          const realValues = []; //...crea un array vuoto...
+
+          for(const prop of pset.HasProperties) { //... per ogni proprietà del pset...
+            const id = prop.value; //...prendi il valore identificativo della proprietà....
+            const value = await ifcLoader.ifcManager.getItemProperties(found.object.modelID, id); //...carica la proprietà dal suo id...
+            realValues.push(value); //... appendi la proprietà all'array iniziale
+          }
+          pset.HasProperties = realValues; //sostituisco la linea ifc relativa al pset con un array di proprietà del pset
+        }
+        console.log(psets);
+        console.log(psets[0]);
+        console.log(psets[0].HasProperties[2]);
+      }
     }
 }
 
